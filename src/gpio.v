@@ -4,7 +4,7 @@ fn C.wiringXValidGPIO(pin int) int
 fn C.pinMode(pin int, mode PinMode)
 fn C.digitalRead(pin int) int
 fn C.digitalWrite(pin int, value DigitalValue) int
-fn C.waitForInterrput(pin int, ms int) int
+fn C.waitForInterrupt(pin int, ms int) int
 fn C.wiringXISR(pin int, mode ISRMode) int
 
 enum PinMode {
@@ -39,7 +39,7 @@ fn (g GPIO) set_isr(mode ISRMode) {
 }
 
 fn (g GPIO) wait_for_interrupt(timeout_ms int) {
-	C.waitForInterrput(g.pin, timeout_ms)
+	C.waitForInterrupt(g.pin, timeout_ms)
 }
 
 interface GPIORead {
