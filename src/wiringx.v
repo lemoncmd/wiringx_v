@@ -25,7 +25,7 @@ pub fn platform() string {
 	return unsafe { cstring_to_vstring(C.wiringXPlatform()) }
 }
 
-// wait for ms.
-pub fn delay_ms(ms u32) {
-	C.delayMicroseconds(ms)
+// wait for microseconds.
+pub fn delay_us(us u32) {
+	C.delayMicroseconds(us)
 }
