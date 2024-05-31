@@ -1,26 +1,42 @@
 module wiringx
 
-import runtime
-
 #include <wiringx.h>
 
 fn C.wiringXSetup(name &u8, voidptr) int
+fn C.wiringXValidGPIO(pin int) int
+fn C.delayMicroseconds(ms u32)
 fn C.wiringXGC() int
+fn C.wiringXPlatform() &u8
 
 // init function for wiringx
 fn init() {
-	mem := runtime.total_memory()
-	device := if mem < 100_000_000 {
-		'milkv_duo'
-	} else if mem < 300_000_000 {
-		'milkv_duo256m'
-	} else {
-		'milkv_duos'
+	name := C.wiringXPlatform()
+	if C.wiringXSetup(name, unsafe { nil }) == -1 {
+		exit(1)
 	}
-	C.wiringXSetup(device.str, unsafe { nil })
 }
 
 // cleanup function for wiringx
 fn cleanup() {
 	C.wiringXGC()
+}
+
+pub fn platform() string {
+	return unsafe { cstring_to_vstring(C.wiringXPlatform()) }
+}
+
+pub fn delay_ms(ms u32) {
+	C.delayMicroseconds(ms)
+}
+
+@[noinit]
+struct GPIO {
+	pin int
+}
+
+fn GPIO.new(pin int) !GPIO {
+	if C.wiringXValidGPIO(pin) != 0 {
+		return error('Invalid GPIO ${pin}')
+	}
+	return GPIO{pin}
 }

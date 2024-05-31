@@ -1,6 +1,6 @@
 Module {
 	name: 'wiringx'
-	description: 'wiringx lib for milkv'
+	description: 'wiringx library'
 	version: '0.0.0'
 	license: 'MIT'
 	dependencies: []
