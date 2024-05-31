@@ -3,7 +3,6 @@ module wiringx
 #include <wiringx.h>
 
 fn C.wiringXSetup(name &u8, voidptr) int
-fn C.wiringXValidGPIO(pin int) int
 fn C.delayMicroseconds(ms u32)
 fn C.wiringXGC() int
 fn C.wiringXPlatform() &u8
@@ -27,16 +26,4 @@ pub fn platform() string {
 
 pub fn delay_ms(ms u32) {
 	C.delayMicroseconds(ms)
-}
-
-@[noinit]
-struct GPIO {
-	pin int
-}
-
-fn GPIO.new(pin int) !GPIO {
-	if C.wiringXValidGPIO(pin) != 0 {
-		return error('Invalid GPIO ${pin}')
-	}
-	return GPIO{pin}
 }
