@@ -46,10 +46,12 @@ interface GPIORead {
 	read() int
 }
 
+// get GPIO for reading
 pub fn GPIORead.new(pin int) !GPIORead {
 	return GPIO.new(pin, .input)!
 }
 
+// digital value
 pub enum DigitalValue {
 	low  = C.LOW
 	high = C.HIGH
@@ -59,10 +61,12 @@ interface GPIOWrite {
 	write(value DigitalValue)
 }
 
+// get GPIO for writing
 pub fn GPIOWrite.new(pin int) !GPIOWrite {
 	return GPIO.new(pin, .output)!
 }
 
+// interrupt mode
 pub enum ISRMode {
 	rising  = C.ISR_MODE_RISING
 	falling = C.ISR_MODE_FALLING
@@ -74,6 +78,7 @@ interface GPIOInterrupt {
 	wait_for_interrupt(timeout_ms int)
 }
 
+// get GPIO for interrupt
 pub fn GPIOInterrupt.new(pin int) !GPIOInterrupt {
 	return GPIO.new(pin, .interrupt)!
 }
