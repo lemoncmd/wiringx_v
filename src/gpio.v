@@ -2,6 +2,10 @@ module wiringx
 
 fn C.wiringXValidGPIO(pin int) int
 fn C.pinMode(pin int, mode PinMode)
+fn C.digitalRead(pin int) int
+fn C.digitalWrite(pin int, value DigitalValue) int
+fn C.waitForInterrput(pin int, ms int) int
+fn C.wiringXISR(pin int, mode ISRMode) int
 
 enum PinMode {
 	input     = C.PINMODE_INPUT
@@ -23,19 +27,19 @@ fn GPIO.new(pin int, mode PinMode) !GPIO {
 }
 
 fn (g GPIO) read() int {
-	panic('unimplemented')
+	return C.digitalRead(g.pin)
 }
 
 fn (g GPIO) write(value DigitalValue) {
-	panic('unimplemented')
+	C.digitalWrite(g.pin, value)
 }
 
 fn (g GPIO) set_isr(mode ISRMode) {
-	panic('unimplemented')
+	C.wiringXISR(g.pin, mode)
 }
 
 fn (g GPIO) wait_for_interrupt(timeout_ms int) {
-	panic('unimplemented')
+	C.waitForInterrput(g.pin, timeout_ms)
 }
 
 interface GPIORead {
