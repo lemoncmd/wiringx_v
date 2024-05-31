@@ -22,20 +22,41 @@ fn GPIO.new(pin int, mode PinMode) !GPIO {
 	return GPIO{pin}
 }
 
+fn (g GPIO) read() int {
+	panic('unimplemented')
+}
+
+fn (g GPIO) write(value DigitalValue) {
+	panic('unimplemented')
+}
+
+fn (g GPIO) set_isr(mode ISRMode) {
+	panic('unimplemented')
+}
+
+fn (g GPIO) wait_for_interrupt(timeout_ms int) {
+	panic('unimplemented')
+}
+
 interface GPIORead {
 	read() int
 }
 
-pub fn GPIORead.new() !GPIORead {
-	panic('unimplemented')
+pub fn GPIORead.new(pin int) !GPIORead {
+	return GPIO.new(pin, .input)!
+}
+
+pub enum DigitalValue {
+	low  = C.LOW
+	high = C.HIGH
 }
 
 interface GPIOWrite {
-	write(value bool)
+	write(value DigitalValue)
 }
 
-pub fn GPIOWrite.new() !GPIOWrite {
-	panic('unimplemented')
+pub fn GPIOWrite.new(pin int) !GPIOWrite {
+	return GPIO.new(pin, .output)!
 }
 
 pub enum ISRMode {
@@ -49,6 +70,6 @@ interface GPIOInterrupt {
 	wait_for_interrupt(timeout_ms int)
 }
 
-pub fn GPIOInterrupt.new() !GPIOInterrupt {
-	panic('unimplemented')
+pub fn GPIOInterrupt.new(pin int) !GPIOInterrupt {
+	return GPIO.new(pin, .interrupt)!
 }
